@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+ <!-- layout-fixed -->
+                	<div class="layout-fixed">
+                    
+                    
+                    
+						<!-- InstanceBeginEditable name="LayoutFixedContent" -->
+                	
+                    
+                            <!-- .hentry -->
+                            <article class="hentry post">
+                            
+                            	
+                                <!-- .entry-header -->
+                                <header class="entry-header">
+                                    
+                                    
+                                    <!-- .entry-title -->
+                                    <h1 class="entry-title">{{article.title}}</h1>
+                                    
+                                    
+                                    <!-- .entry-meta -->
+                                    <div class="entry-meta">
+                                        <span class="entry-date">
+                                        	<time class="entry-date" datetime="{{article.created_date}}"><p>{{article.created_date}}</p></time>
+                                        </span> 
+                                        <span>
+                                            {{comments_count}} Yorum
+                                        </span>
+                                        <span class="read-time"><span class="eta"></span> okuma süresi</span>
+                                        <span class="comment-link">
+                                            <p>{{article.author.username}} tarafından yayınlandı</p>
+                                        </span>  
+                                    </div>
+                                    <!-- .entry-meta -->
+                                    
+                                </header>
+                                <!-- .entry-header -->
+                                
+                                <!-- .featured-image -->
+                                {% if article.article_image %}
+
+                                  <div class="featured-image">
+                                    <img src="{{article.article_image.url}}" alt="blog-image">
+                                  </div>
+                                
+                                {% endif %}
+                               
+                                <!-- .featured-image -->
+
+
+                                <div class="entry-content">
+                                  <p class="drop-cap"> {{article.content|safe}} </p> </div>
+
+                                        {% if comments %}
+                                        <div id="comments" class="comments-area">
+                                                                                    
+                                          <h3 class="section-title">{{ comments_count }} Yorum</h3>
+                                        {% for comment in comments  %}
+                                          <header class="comment-meta comment-author vcard">
+                                        
+                                        <cite class="fn"><p><span>İsim: </span>{{comment.comment_author}}</p></cite>
+                                        <span class="comment-date">{{comment.comment_date}}</span>
+                                          </header>
+                                          <section class="comment-content comment">
+                                            <p>{{comment.comment_content}}</p>
+                                          </section>
+                                          <hr>
+                                        {% endfor %}
+                                        
+                                        
+                                        {% else %}
+                                        <div class ="alert alert-danger">
+                                          Bu makaleye herhangi bir yorum yazılmamış, ilk yorum yapan siz olun!
+                                        </div>
+                                        {% endif %}
+
+                                        <div class="card my-4">
+                                            <h5 class="card-header">Yorum Ekle:</h5>
+                                            <div class="card-body">
+                                              <form method = "post" action = "{% url 'article:comment' article.id %}">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label for="formGroupExampleInput">İsİm</label>
+                                                    <input name = "comment_author" type="text" class="form-control" id="formGroupExampleInput" placeholder="İsminizi girin">
+                                                  </div>
+                                                <div class="form-group">
+                                                    <label for="formGroupExampleInput">Yorum</label>
+                                                  <textarea name = "comment_content" class="form-control" rows="3" placeholder="Lütfen saygı çerçevesinde yorum yapınız..."></textarea>
+                                                </div>
+                                                <button type="submit" class="button primary">Ekle</button>
+                                              </form>
+                                            </div> 
+                                          </div>
+                                          </div>
+                                          
+                                        </div> 
+
+      
+
+{% endblock body %}
